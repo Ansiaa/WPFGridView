@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +10,14 @@ namespace WpfGridView.Class
     public class ListData
     {
         public static List<string> TypeList = new List<string>() { "Circle", "Region", "Horizonal", "Vertical", "User", "W_Horizonal", "W_Vertical", "Region2", "Block", "IqCheck","T_Horizonal", "T_Vertical", "User2" };
+        //public static List<string> InfoList = new List<string>() { "PiX", "Size Y",  };
     }
-    public class ObservableCollectionData
+    public static class ObservableCollectionData
     {
         public static ObservableCollection<Data.PatternData> PatternDataC { get; set; }= new ObservableCollection<Data.PatternData>();
         public static ObservableCollection<Data.FilterData> FilterDataC { get; set; } = new ObservableCollection<Data.FilterData>();
         public static ObservableCollection<Data.FilterData> FilterViewC { get; set; } = new ObservableCollection<Data.FilterData>();
-        public static ObservableCollection<Data.InfoData> InfoDataC { get; set; } = new ObservableCollection<Data.InfoData>();
+        public static ObservableCollection<Data.InfoItem> InfoDataC { get; set; } = new ObservableCollection<Data.InfoItem>();
     }
 
     public class Data
@@ -164,6 +165,11 @@ namespace WpfGridView.Class
             public string AREAUSE { get; set; }
             public string PREBLUR_SIZE { get; set; }
             public string PREBLUR_Count { get; set; }
+        }
+        public class InfoItem
+        {
+            public string Info { get; set; }
+            public string Value { get; set; }
         }
     }
     public class DataIndex
