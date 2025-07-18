@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +17,9 @@ namespace WpfGridView.Class
             
             return File.ReadINI(section, key, "");
         }
-        static public void PatternListInsert()
+        public static  void PatternListInsert()
         {
+            ObservableCollectionData.PatternDataC.Clear();
             FileData.Ptncount = Convert.ToInt32(File.ReadINI("PATTERN", "COUNT", ""));
             for (int i = 0; i < FileData.Ptncount; i++)
             {
@@ -35,7 +36,7 @@ namespace WpfGridView.Class
             ObservableCollectionData.PatternDataC.Add(pattern);
         }
 
-        static public void FilterListInsert()
+        public static void FilterListInsert()
         {
             for (int i = 0; i < FileData.Ptncount; i++)
             {
@@ -63,10 +64,18 @@ namespace WpfGridView.Class
             ObservableCollectionData.FilterDataC.Add(filter);
             
         }
-        static public void InfoListInsert()
+        public static void InfoListInsert()
         {
             Data.InfoData cellinfo = DataIndex.LoadInfoDataFromINI();
-            ObservableCollectionData.InfoDataC.Add(cellinfo);
+            ObservableCollectionData.InfoDataC.Clear();
+            foreach (var p in typeof(Data.InfoData).GetProperties())
+            {
+                ObservableCollectionData.InfoDataC.Add(new Data.InfoItem
+                {
+                    Info = p.Name,
+                    Value = p.GetValue(cellinfo)?.ToString() ?? ""
+                });
+            }
         }
 
     }
