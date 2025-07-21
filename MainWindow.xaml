@@ -1,0 +1,121 @@
+﻿<Window x:Class="WpfGridView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfGridView.Class"
+        xmlns:data="clr-namespace:WpfGridView.Class"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="878.236" Width="1543.758">
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="TypeDictionary"
+                            ObjectType="{x:Type data:Data+FilterData}"
+                            MethodName="GetTypeDictionary" />
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="SkyBlue"/>
+                    <Setter Property="Foreground" Value="DarkBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="SkyBlue"/>
+                    <Setter Property="Foreground" Value="DarkBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,0,3.333,3.667">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="FileOpen" Grid.ColumnSpan="2" Content="Open" HorizontalAlignment="Left" Height="29" Margin="17,32,0,0" VerticalAlignment="Top" Width="215" Click="Open_Click"/>
+
+        <DataGrid  Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="200" Margin="10,120,0,0" VerticalAlignment="Top" Width="222" x:Name="PatternDataGrid"
+          AutoGenerateColumns="False" CanUserAddRows="False"
+          ItemsSource="{Binding PatternDataC}" MouseLeftButtonUp ="PtnClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridCheckBoxColumn Header="Omit" Binding="{Binding IsUseOmit, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn Header="PC" Binding="{Binding IsUsePC, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn Header="PreBlur" Binding="{Binding IsPreBlur, Mode=TwoWay}" IsReadOnly="False"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="UP" Grid.ColumnSpan="2" Content="▲" HorizontalAlignment="Left" Height="38" Margin="10,333,0,0" VerticalAlignment="Top" Width="35" Click="UP_Click"/>
+        <Button x:Name="Down" Grid.ColumnSpan="2" Content="▼" HorizontalAlignment="Left" Height="38" Margin="54,333,0,0" VerticalAlignment="Top" Width="39" Click="Down_Click"/>
+        <Button x:Name="Add" Grid.ColumnSpan="2" Content="➕" HorizontalAlignment="Left" Height="38" Margin="99,333,0,0" VerticalAlignment="Top" Width="39" Click="Add_Click"/>
+        <Button x:Name="Del" Grid.ColumnSpan="2" Content="🗑️" HorizontalAlignment="Left" Height="38" Margin="146,333,0,0" VerticalAlignment="Top" Width="39" Click="Del_Click" RenderTransformOrigin="0.615,-0.088"/>
+        <DataGrid x:Name="FilterDataGrid" Grid.ColumnSpan="2" Height="642" Margin="254,120,11,0" VerticalAlignment="Top"
+                  AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding FilterViewC}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FilterName" Binding="{Binding FilterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridCheckBoxColumn Header="Use" Binding="{Binding IsUse, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn Header="Omit" Binding="{Binding IsOmit, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn Header="Special" Binding="{Binding IsSpecial, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn Header="12bit" Binding="{Binding Isbit12, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn Header="HR" Binding="{Binding IsHR, Mode=TwoWay}" IsReadOnly="False"/>
+                <DataGridTextColumn Header="Blur" Binding="{Binding Blur, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="CodeName" Binding="{Binding CodeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                <DataGridComboBoxColumn Header="Type" 
+                        SelectedValueBinding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="Key"
+                        DisplayMemberPath="Value"
+                       ItemsSource="{Binding Source={StaticResource TypeDictionary}}"/>
+                <DataGridTextColumn Header="MinSize" Binding="{Binding MinSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MaxSize" Binding="{Binding MaxSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="BlackFactor" Binding="{Binding Black, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="WhiteFactor" Binding="{Binding White, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn Header="MaxFactor" Binding="{Binding MaxFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="SubRect" Binding="{Binding SubRect, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Count" Binding="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Angle" Binding="{Binding Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn Header="MaskGroup" Binding="{Binding MaskGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Angle" Binding="{Binding Angle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MinLevelB" Binding="{Binding MinLevelB, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MinLevelW" Binding="{Binding MinLevelW, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MinGrade" Binding="{Binding MinGrade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn Header="Pitch" Binding="{Binding Pitch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="ShiftBg" Binding="{Binding ShiftBg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MAG" Binding="{Binding MAG, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="OmitRatio" Binding="{Binding OmitRatio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn Header="MinSharpness" Binding="{Binding MinSharpness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MaxSharpness" Binding="{Binding MaxSharpness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MinVariation" Binding="{Binding MinVariation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MaxVariation" Binding="{Binding MaxVariation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MinNCC" Binding="{Binding MinNCC, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn Header="MaxDefect" Binding="{Binding MaxDefect, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Sampling" Binding="{Binding Sampling, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="MaxLevel" Binding="{Binding MaxLevel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="LastModify" Binding="{Binding LastModify, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="RecipePath" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="41" Margin="13,70,0,0" TextWrapping="Wrap" Text="RecipePath" VerticalAlignment="Top" Width="219" VerticalScrollBarVisibility="Auto"/>
+        <Button x:Name="Save" Grid.ColumnSpan="2" Content="Save" HorizontalAlignment="Left" Height="29" Margin="254,32,0,0" VerticalAlignment="Top" Width="206" Click="Open_Click" />
+        <TextBox x:Name="PtnName" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="37" Margin="254,70,0,0" TextWrapping="Wrap" Text="PtnName" VerticalAlignment="Top" Width="206" IsReadOnlyCaretVisible="True" FontSize="15"/>
+        <Button x:Name="Edit" Grid.ColumnSpan="2" Content="✏️" HorizontalAlignment="Left" Height="38" Margin="192,333,0,0" VerticalAlignment="Top" Width="39" Click="Del_Click" RenderTransformOrigin="0.615,-0.088"/>
+        <DataGrid x:Name="InfoDataGrid" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="389" Margin="13,390,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding InfoDataC}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Info" Binding="{Binding Info}" Width="120"/>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="Filter_UP" Grid.ColumnSpan="2" Content="▲" HorizontalAlignment="Left" Height="38" Margin="511,70,0,0" VerticalAlignment="Top" Width="35" Click="FUP_Click"/>
+        <Button x:Name="Filter_Down" Grid.ColumnSpan="2" Content="▼" HorizontalAlignment="Left" Height="38" Margin="555,70,0,0" VerticalAlignment="Top" Width="39" Click="FDown_Click"/>
+        <Button x:Name="Filter_Add" Grid.ColumnSpan="2" Content="➕" HorizontalAlignment="Left" Height="38" Margin="600,70,0,0" VerticalAlignment="Top" Width="39" Click="FAdd_Click"/>
+        <Button x:Name="Filter_Del" Grid.ColumnSpan="2" Content="🗑️" HorizontalAlignment="Left" Height="38" Margin="647,70,0,0" VerticalAlignment="Top" Width="39" Click="FDel_Click" RenderTransformOrigin="0.615,-0.088"/>
+        <Button x:Name="Filter_Edit" Grid.ColumnSpan="2" Content="✏️" HorizontalAlignment="Left" Height="38" Margin="693,70,0,0" VerticalAlignment="Top" Width="39" Click="FDel_Click" RenderTransformOrigin="0.615,-0.088"/>
+    </Grid>
+</Window>
