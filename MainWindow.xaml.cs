@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,21 +66,24 @@ namespace WpfGridView
             var selectedItem = PatternDataGrid.SelectedItem as Data.PatternData;
             Controller.GridDel(selectedItem, ObservableCollectionData.PatternDataC);
         }
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
         private void PtnClick(object sender, MouseButtonEventArgs e)
         {
             var selectedPattern = (Data.PatternData)((DataGrid)sender).SelectedItem;
             if (selectedPattern == null)
                 return;
 
-            string selectedId = selectedPattern.Name;
+            FileData.selectedId = selectedPattern.Name;
 
           
             var matchedDetails = ObservableCollectionData.FilterDataC
-                                  .Where(f => f.Name == selectedId)
+                                  .Where(f => f.Name == FileData.selectedId)
                                   .ToList();
             //TextBox
-            PtnName.Text = selectedId;
+           
             // FilterViewC 갱신
             ObservableCollectionData.FilterViewC.Clear();
 
@@ -89,7 +92,7 @@ namespace WpfGridView
                 ObservableCollectionData.FilterViewC.Add(detail);
             }
             FilterDataGrid.ItemsSource = ObservableCollectionData.FilterViewC;
-            
+            PtnName.Text = FileData.selectedId;
         }
         private void FUP_Click(object sender, RoutedEventArgs e)
         {
@@ -108,6 +111,7 @@ namespace WpfGridView
             var selectedItem = FilterDataGrid.SelectedItem as Data.FilterData;
             // 
             Controller.GridAdd(selectedItem, ObservableCollectionData.FilterViewC);
+            
         }
 
         private void FDel_Click(object sender, RoutedEventArgs e)
@@ -115,5 +119,48 @@ namespace WpfGridView
             var selectedItem = FilterDataGrid.SelectedItem as Data.FilterData;
             Controller.GridDel(selectedItem, ObservableCollectionData.FilterViewC);
         }
+
+        private void FEdit_Click(object sender, RoutedEventArgs e)
+        {            
+            var toRemove = ObservableCollectionData.FilterDataC
+          .Where(f => f.Name == FileData.selectedId)
+          .ToList();
+
+            foreach (var item in toRemove)
+            {
+                ObservableCollectionData.FilterDataC.Remove(item);
+            }
+            foreach (var item in ObservableCollectionData.FilterViewC.Where(f => f.Name == null))
+            {
+                item.Name = FileData.selectedId;
+            }
+            // FilterViewC의 데이터를 FilterDataC에 추가
+            foreach (var item in ObservableCollectionData.FilterViewC)
+            {
+                ObservableCollectionData.FilterDataC.Add(item);
+                
+            }
+
+        }
+
+        private void CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+            var binding = (e.Column as DataGridBoundColumn)?.Binding as Binding;
+            if (binding != null)
+            {
+                var path = binding.Path.Path;  // 바인딩된 프로퍼티명
+
+                if (path == "FilterName")
+                {
+                    
+                }
+                else if (path == "OtherProperty")
+                {
+                    
+                }
+            }
+        }
+
     }
 }
